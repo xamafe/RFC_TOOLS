@@ -52,7 +52,7 @@ CLASS zcl_rfc__factory IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD create_r3_by_rfcdest.
-     data(r3_destination) = NEW zcl_r3_rfc( ).
+     data(r3_destination) = NEW zcl_rfc_r3( ).
      r3_destination->zif_rfc~set_rfcdes( i_rfcdes ).
      r_result = r3_destination.
   ENDMETHOD.
