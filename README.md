@@ -6,7 +6,7 @@ As you know it is unpleasant to work with aRFC, not mentioning aRFC with a regul
 After I struggled some time with the approach from the SAP I decided to write a wrapper for developers, which is capable of handling the "standard - stuff"
 The idea is simple: each parallel task is managed by its own instance of the wrapper class.
 
-To use it, follow these easy steps:
+To use this approach, follow these easy steps:
 1. create a child class from zcl_async__base
 2. choose a function module which should be handled by the class
 3. create Attributes and setter/getter methods for all parameters of the function module
