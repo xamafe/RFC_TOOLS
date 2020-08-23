@@ -3,7 +3,7 @@
 Hi there, nice to meet you.
 
 As you know it is unpleasant to work with aRFC, not mentioning aRFC with a regular RFC call to fetch data from multiple systems in parallel.
-After I struggled some time with the approach from the SAP I decided to write a wrapper for developers, which is capable of handling the "standard - stuff"
+After I struggled some time with the approach from the SAP I decided to write a wrapper for developers, which is capable of handling the "standard - stuff", like rfcgroups, check the RFC - connection and errormessages.  
 The idea is simple: each parallel task is managed by its own instance of the wrapper class.
 
 To use this approach, follow these easy steps:
