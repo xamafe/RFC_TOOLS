@@ -20,9 +20,9 @@ To use this approach, follow these easy steps:
 >>*Make sure if sy-subrc = 3 that e_insufficient_ressources is set to abap_true
 5. implement receive_function  
   
-I'm going to implement an example as soon as possible :-)
+An example can be found within the report z_async_example_usage.  
+If you call a R3 - RFC connection within the async function module you can call multiple system in parallel.  
   
 NEXT STEPS:  
-* implement an example!
-* add RFC - Connections to the base - class
-* add RFC Groups to the base - class
+* add async exception class for errors & proper errorhandling
+* add other RFC - Types
