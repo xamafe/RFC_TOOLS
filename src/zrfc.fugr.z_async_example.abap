@@ -5,7 +5,7 @@ FUNCTION Z_ASYNC_EXAMPLE.
 *"  IMPORTING
 *"     VALUE(I_TASKNAME) TYPE  ZE_TASKNAME
 *"  EXPORTING
-*"     REFERENCE(E_TEXT) TYPE  STRING
+*"     VALUE(E_TEXT) TYPE  STRING
 *"----------------------------------------------------------------------
   e_text = |Hello World, this is task { i_taskname }|.
 

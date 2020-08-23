@@ -9,6 +9,7 @@
    <FUNCTIONS>
     <item>
      <FUNCNAME>Z_ASYNC_EXAMPLE</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
      <SHORT_TEXT>an example for async RFC</SHORT_TEXT>
      <IMPORT>
       <RSIMP>
@@ -19,7 +20,6 @@
      <EXPORT>
       <RSEXP>
        <PARAMETER>E_TEXT</PARAMETER>
-       <REFERENCE>X</REFERENCE>
        <TYP>STRING</TYP>
       </RSEXP>
      </EXPORT>
