@@ -6,8 +6,11 @@ CLASS zcl_async__base DEFINITION
   PUBLIC SECTION.
 
     INTERFACES zif_async.
-    METHODS constructor IMPORTING i_taskname TYPE ze_taskname OPTIONAL.
+    METHODS constructor IMPORTING i_taskname TYPE ze_taskname OPTIONAL
+                                  i_rfcdest  TYPE rfcdest OPTIONAL.
     METHODS receive_data IMPORTING p_task TYPE clike.
+
+
   PROTECTED SECTION.
     METHODS call_function
           ABSTRACT
@@ -27,6 +30,8 @@ CLASS zcl_async__base DEFINITION
     CLASS-DATA async_calls TYPE STANDARD TABLE OF REF TO zcl_async__base.
     DATA count_rfc_max_retry TYPE i VALUE 10.
     DATA is_running TYPE abap_bool.
+    DATA rfc_connection TYPE REF TO zcl_rfc_r3.
+    DATA rfc_group TYPE rzlli_apcl.
     DATA taskname TYPE ze_taskname.
     DATA wait_secs_until_retry TYPE i VALUE 1.
 
@@ -39,7 +44,14 @@ ENDCLASS.
 
 CLASS zcl_async__base IMPLEMENTATION.
   METHOD constructor.
-    zif_async~set_taskname( i_taskname ).
+    IF i_taskname IS NOT INITIAL.
+      zif_async~set_taskname( i_taskname ).
+    ELSEIF i_rfcdest IS NOT INITIAL.
+      zif_async~set_rfc_connection( zcl_rfc__factory=>create_by_rfcdest( i_rfcdest ) ).
+    ELSE.
+      EXIT.
+    ENDIF.
+
     APPEND me TO async_calls.
   ENDMETHOD.
 
@@ -79,7 +91,7 @@ CLASS zcl_async__base IMPLEMENTATION.
         ELSE.
           RAISE EVENT zif_async~rfc_insufficient_ressources
             EXPORTING
-              ev_act_retries = retry_count.
+              e_act_retries = retry_count.
           WAIT UP TO wait_secs_until_retry SECONDS.
           CONTINUE.
         ENDIF.
@@ -92,8 +104,8 @@ CLASS zcl_async__base IMPLEMENTATION.
 
     RAISE EVENT zif_async~function_called
       EXPORTING
-        ev_message = rfc_error_message
-        ev_subrc   = call_subrc.
+        e_message = rfc_error_message
+        e_subrc   = call_subrc.
 
   ENDMETHOD.
 
@@ -154,8 +166,24 @@ CLASS zcl_async__base IMPLEMENTATION.
                       IMPORTING e_subrc   = receive_result
                                 e_message = rfc_error_message ).
     remove_async_running_data( ).
-    RAISE EVENT zif_async~function_received EXPORTING ev_subrc   = receive_result
-                                                      ev_message = rfc_error_message.
+    RAISE EVENT zif_async~function_received EXPORTING e_subrc   = receive_result
+                                                      e_message = rfc_error_message.
+  ENDMETHOD.
+
+  METHOD zif_async~get_rfc_connection.
+    r_result = me->rfc_connection.
+  ENDMETHOD.
+
+  METHOD zif_async~set_rfc_connection.
+    me->rfc_connection ?= rfc_connection.
+  ENDMETHOD.
+
+  METHOD zif_async~get_rfc_group.
+    r_result = me->rfc_group.
+  ENDMETHOD.
+
+  METHOD zif_async~set_rfc_group.
+    me->rfc_group = rfc_group.
   ENDMETHOD.
 
 ENDCLASS.
